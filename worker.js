@@ -1,5 +1,6 @@
-const FRAMER = "sweet-oval-892843.framer.app";
+const ORIGIN = "https://devesh2511.github.io/aestheticauraclinics";
 const DOMAIN = "aestheticauraclinics.com";
+const OLD_FRAMER = "sweet-oval-892843.framer.app";
 
 export default {
   async fetch(request) {
@@ -11,18 +12,25 @@ export default {
       return Response.redirect(url.toString(), 301);
     }
 
-    url.hostname = FRAMER;
-    const res = await fetch(new Request(url, request), { redirect: "manual" });
+    let res = await fetch(ORIGIN + url.pathname + url.search, { redirect: "manual" });
 
-    // Keep any Framer redirects on our own domain
+    // Pages like /about only exist inside index.html, so fall back to it
+    const isPage = !url.pathname.split("/").pop().includes(".");
+    if (res.status === 404 && isPage) {
+      res = await fetch(ORIGIN + "/", { redirect: "manual" });
+    }
+
+    // Keep any GitHub redirects on our own domain
     const headers = new Headers(res.headers);
     const loc = headers.get("Location");
-    if (loc) headers.set("Location", loc.replaceAll(FRAMER, DOMAIN));
+    if (loc) headers.set("Location", loc.replace(ORIGIN, "https://" + DOMAIN));
 
-    // Swap framer.app links in HTML pages for our domain
+    // Swap GitHub and old Framer links in HTML pages for our domain
     const type = headers.get("Content-Type") || "";
     if (type.includes("text/html")) {
-      const html = (await res.text()).replaceAll(FRAMER, DOMAIN);
+      const html = (await res.text())
+        .replaceAll(ORIGIN.replace("https://", ""), DOMAIN)
+        .replaceAll(OLD_FRAMER, DOMAIN);
       headers.delete("Content-Length");
       return new Response(html, { status: res.status, headers });
     }
