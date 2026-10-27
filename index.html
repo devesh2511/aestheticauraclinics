@@ -4,7 +4,15 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
     <meta name="generator" content="Framer 9801af1">
-    <title>Aesthetic Aura</title>
+    <title>Aesthetic Aura Clinics</title>
+    <!-- Framer's runtime overwrites the title with its template name, so put ours back -->
+    <script>
+        (() => {
+            const title = "Aesthetic Aura Clinics";
+            const fix = () => { if (document.title !== title) document.title = title; };
+            new MutationObserver(fix).observe(document.head, { childList: true, subtree: true, characterData: true });
+        })();
+    </script>
     <meta name="description"
         content="Elegant beauty and spa website showcasing luxury treatments, refined design, calming visuals, and a seamless premium client experience online.">
     <meta name="framer-search-index"
