@@ -39,7 +39,6 @@
 
 
     <script>try { if (localStorage.getItem("__framer_force_showing_editorbar_since")) { const n = document.createElement("link"); n.rel = "modulepreload"; n.href = "https://framer.com/edit/init.mjs"; document.head.appendChild(n) } } catch (e) { }</script>
-    <link rel="modulepreload" href="https://framer.com/edit/init.mjs">
     <link rel="canonical" href="https://sweet-oval-892843.framer.app/">
     <meta property="og:url" content="https://sweet-oval-892843.framer.app/"><!-- Start of headStart -->
 
@@ -6004,6 +6003,11 @@
         #__framer-editorbar.status_measuring {
             clip-path: unset;
         }
+
+        /* Never show Framer's editor bar on the live site */
+        #__framer-editorbar {
+            display: none !important;
+        }
     </style>
     <style type="text/css" id="mytempCss">
         ._8mqQwQ {
@@ -9616,6 +9620,379 @@
         </div>
         <div id="template-overlay"></div><!--/$-->
     </div>
+    <!-- Aesthetic Aura footer (static, outside Framer's React root so hydration never replaces it) -->
+    <style>
+        .framer-1qf1nzj-container {
+            display: none !important;
+        }
+
+        .aa-footer {
+            --aa-plum: rgb(99, 58, 88);
+            --aa-plum-dark: rgb(53, 26, 50);
+            --aa-cream: rgb(252, 246, 230);
+            background: var(--aa-cream);
+            color: var(--aa-plum);
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+            z-index: 1;
+        }
+
+        .aa-footer *,
+        .aa-footer *::before,
+        .aa-footer *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        .aa-footer a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .aa-footer__wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 46px;
+            padding: 131px 20px 48px;
+        }
+
+        .aa-footer__top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 32px;
+            width: 100%;
+            max-width: 1800px;
+        }
+
+        .aa-footer__brand {
+            flex: 1 1 0;
+            max-width: 900px;
+        }
+
+        .aa-footer__title {
+            font-family: "Koulen", "Koulen Placeholder", sans-serif;
+            font-weight: 400;
+            font-size: clamp(44px, 4.6vw, 88px);
+            line-height: 1;
+            letter-spacing: -0.03em;
+            text-transform: uppercase;
+        }
+
+        .aa-footer__subtitle {
+            font-family: "Playfair Display", "Playfair Display Placeholder", serif;
+            font-style: italic;
+            font-weight: 500;
+            font-size: clamp(38px, 4.8vw, 92px);
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+        }
+
+        .aa-footer__links {
+            flex: 1 1 0;
+            max-width: 930px;
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            column-gap: 24px;
+        }
+
+        .aa-footer__col {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .aa-footer__nav {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .aa-footer__link {
+            font-family: "Koulen", "Koulen Placeholder", sans-serif;
+            font-size: 20px;
+            line-height: 30px;
+            letter-spacing: -0.03em;
+            text-transform: uppercase;
+            white-space: nowrap;
+            position: relative;
+            display: inline-block;
+        }
+
+        .aa-footer__link::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: 2px;
+            width: 0;
+            height: 1px;
+            background: currentColor;
+            transition: width 0.3s ease;
+        }
+
+        .aa-footer__link:hover::after,
+        .aa-social:hover .aa-footer__link::after {
+            width: 100%;
+        }
+
+        .aa-social {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .aa-social__icon {
+            flex: none;
+            width: 44px;
+            height: 44px;
+            border-radius: 100px;
+            background: var(--aa-plum-dark);
+            color: var(--aa-cream);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease;
+        }
+
+        .aa-social:hover .aa-social__icon {
+            transform: scale(1.08);
+        }
+
+        .aa-social__icon svg {
+            width: 22px;
+            height: 22px;
+        }
+
+        .aa-contact {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 18px;
+        }
+
+        .aa-contact__item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            width: min(460px, calc(100vw - 40px));
+        }
+
+        .aa-contact__item img {
+            flex: none;
+            width: 30px;
+            height: 30px;
+            object-fit: cover;
+        }
+
+        .aa-contact__text {
+            font-family: "Koulen", "Koulen Placeholder", sans-serif;
+            font-size: 18px;
+            line-height: 24px;
+            text-transform: uppercase;
+            padding-top: 3px;
+        }
+
+        .aa-footer__bottom {
+            width: 100%;
+            max-width: 1800px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0;
+        }
+
+        .aa-footer__watermark {
+            font-family: "Koulen", "Koulen Placeholder", sans-serif;
+            font-size: clamp(64px, 10.5vw, 201px);
+            line-height: 0.62;
+            letter-spacing: -0.02em;
+            text-transform: uppercase;
+            white-space: nowrap;
+            background-image: linear-gradient(0deg, rgba(99, 58, 88, 0.2) 0%, rgba(252, 246, 230, 0.5) 78%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: transparent;
+            user-select: none;
+            padding-top: 0.1em;
+        }
+
+        .aa-footer__copy {
+            font-family: "Playfair Display", "Playfair Display Placeholder", serif;
+            font-style: italic;
+            font-size: clamp(18px, 1.5vw, 26px);
+            line-height: 1.3;
+            text-transform: capitalize;
+            text-align: center;
+            margin-top: 8px;
+        }
+
+        /* Tablet: stack brand above links */
+        @media (max-width: 1199.98px) {
+            .aa-footer__wrap {
+                gap: 48px;
+                padding: 80px 40px 32px;
+            }
+
+            .aa-footer__top {
+                flex-direction: column;
+                gap: 80px;
+            }
+
+            .aa-footer__brand,
+            .aa-footer__links {
+                flex: none;
+                width: 100%;
+                max-width: none;
+            }
+        }
+
+        /* Phone: matches the Framer "Phone" variant */
+        @media (max-width: 809.98px) {
+            .aa-footer__wrap {
+                gap: 19px;
+                padding: 60px 20px 20px;
+            }
+
+            .aa-footer__top {
+                gap: 48px;
+            }
+
+            .aa-footer__links {
+                grid-template-columns: 1fr 1fr;
+                row-gap: 36px;
+                column-gap: 0;
+            }
+
+            .aa-footer__col--nav {
+                gap: 0;
+                display: contents;
+            }
+
+            .aa-footer__nav {
+                gap: 0;
+                grid-column: 1;
+                grid-row: 1;
+            }
+
+            .aa-footer__col--contact {
+                grid-column: 2;
+                grid-row: 1;
+                gap: 0;
+            }
+
+            .aa-footer__col--social {
+                grid-column: 1 / span 2;
+                grid-row: 2;
+            }
+
+            .aa-contact {
+                grid-column: 1 / span 2;
+                grid-row: 3;
+                margin-top: 0;
+            }
+
+            .aa-footer__title {
+                font-size: 40px;
+            }
+
+            .aa-footer__subtitle {
+                font-size: 32px;
+            }
+
+            .aa-contact__text {
+                font-size: 17px;
+            }
+
+            .aa-footer__watermark {
+                font-size: 60px;
+            }
+
+            .aa-footer__copy {
+                font-size: 15px;
+            }
+
+            .aa-contact__item[href^="tel:"] {
+                order: 1;
+            }
+
+            .aa-footer__bottom {
+                align-items: flex-start;
+            }
+
+            .aa-footer__watermark {
+                align-self: center;
+            }
+
+            .aa-footer__copy {
+                text-align: left;
+            }
+        }
+    </style>
+    <footer class="aa-footer" aria-label="Site footer">
+        <div class="aa-footer__wrap">
+            <div class="aa-footer__top">
+                <div class="aa-footer__brand">
+                    <h2 class="aa-footer__title">Where Elegance</h2>
+                    <h2 class="aa-footer__subtitle">Meets Modern Self Care</h2>
+                </div>
+                <div class="aa-footer__links">
+                    <div class="aa-footer__col aa-footer__col--nav">
+                        <nav class="aa-footer__nav" aria-label="Footer">
+                            <a class="aa-footer__link" href="./">Home</a>
+                            <a class="aa-footer__link" href="./about">About Us</a>
+                            <a class="aa-footer__link" href="./services">Services</a>
+                        </nav>
+                        <div class="aa-contact">
+                            <a class="aa-contact__item" href="tel:+918977623060">
+                                <img src="https://framerusercontent.com/images/ILnlhaFHz7lxVg1fuXK9jNrEs4.png?width=300&amp;height=302"
+                                    width="30" height="30" alt="" loading="lazy" decoding="async">
+                                <span class="aa-contact__text">+91 8977623060</span>
+                            </a>
+                            <div class="aa-contact__item">
+                                <img src="https://framerusercontent.com/images/12pIW1YhOy3kCq7PABt3kXidyo.png?width=295&amp;height=306"
+                                    width="30" height="30" alt="" loading="lazy" decoding="async">
+                                <span class="aa-contact__text">Aleem Complex, 101, First Floor, Plot no :- 705, No:-36,
+                                    Road, opposite Kia Motors, Jubilee Hills, Hyderabad, Telangana 500033</span>
+                            </div>
+                            <div class="aa-contact__item">
+                                <img src="https://framerusercontent.com/images/12pIW1YhOy3kCq7PABt3kXidyo.png?width=295&amp;height=306"
+                                    width="30" height="30" alt="" loading="lazy" decoding="async">
+                                <span class="aa-contact__text">Street No- 15, 3-6-232/1/C, AP State Housing Board,
+                                    Himayatnagar, Hyderabad, Telangana 500029</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="aa-footer__col aa-footer__col--contact">
+                        <a class="aa-footer__link" href="./contact">Contact Us</a>
+                    </div>
+                    <div class="aa-footer__col aa-footer__col--social">
+                        <a class="aa-social" href="https://www.instagram.com/dr_anand_toshniwal/" target="_blank"
+                            rel="noopener">
+                            <span class="aa-social__icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="3" y="3" width="18" height="18" rx="5"></rect>
+                                    <circle cx="12" cy="12" r="4"></circle>
+                                    <circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"></circle>
+                                </svg>
+                            </span>
+                            <span class="aa-footer__link">Instagram</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="aa-footer__bottom">
+                <p class="aa-footer__watermark" aria-hidden="true">Aesthetic aura</p>
+                <p class="aa-footer__copy">© 2026. All Rights Reserved by Aesthetic Aura.</p>
+            </div>
+        </div>
+    </footer>
     <script>(() => { function u() { function n(t, e, i) { let r = document.createElement("a"); r.href = t, r.target = i, r.rel = e, document.body.appendChild(r), r.click(), r.remove() } function o(t) { if (this.dataset.hydrated) { this.removeEventListener("click", o); return } t.preventDefault(), t.stopPropagation(); let e = this.getAttribute("href"); if (!e) return; if (/Mac|iPod|iPhone|iPad/u.test(navigator.userAgent) ? t.metaKey : t.ctrlKey) return n(e, "", "_blank"); let r = this.getAttribute("rel") ?? "", c = this.getAttribute("target") ?? ""; n(e, r, c) } function a(t) { if (this.dataset.hydrated) { this.removeEventListener("auxclick", o); return } t.preventDefault(), t.stopPropagation(); let e = this.getAttribute("href"); e && n(e, "", "_blank") } function s(t) { if (this.dataset.hydrated) { this.removeEventListener("keydown", s); return } if (t.key !== "Enter") return; t.preventDefault(), t.stopPropagation(); let e = this.getAttribute("href"); if (!e) return; let i = this.getAttribute("rel") ?? "", r = this.getAttribute("target") ?? ""; n(e, i, r) } document.querySelectorAll("[data-nested-link]").forEach(t => { t instanceof HTMLElement && (t.addEventListener("click", o), t.addEventListener("auxclick", a), t.addEventListener("keydown", s)) }) } return u })()()</script>
     <script>!function () {
             var w = "framer_variant"; function u(a, r) { let e = r.indexOf("#"), t = e === -1 ? r : r.substring(0, e), o = e === -1 ? "" : r.substring(e), n = t.indexOf("?"), h = n === -1 ? t : t.substring(0, n), d = n === -1 ? "" : t.substring(n), s = new URLSearchParams(d), m = new URLSearchParams(a); for (let [i, l] of m) s.has(i) || i !== w && s.append(i, l); let c = s.toString(); return c === "" ? t + o : h + "?" + c + o } var g = 'div#main a[href^="#"],div#main a[href^="/"],div#main a[href^="."]', f = "div#main a[data-framer-preserve-params]", S = document.currentScript?.hasAttribute("data-preserve-internal-params"); if (window.location.search && !navigator.webdriver && !/bot|-google|google-|yandex|ia_archiver|crawl|spider/iu.test(navigator.userAgent)) { let a = document.querySelectorAll(S ? `${g},${f}` : f); for (let r of a) { let e = u(window.location.search, r.href); r.setAttribute("href", e) } }
@@ -9722,10 +10099,6 @@
 
     <!-- End of bodyEnd -->
 
-    <iframe id="__framer-editorbar"
-        src="https://framer.com/edit?framerSiteId=ede48624b35d2042aa8d9996f3af6984720153c572bfa3e2a61cc54b4bd15d9a&amp;source=sweet-oval-892843.framer.app&amp;features=%7B%22editorBarDisableFrameAncestorsSecurity%22%3Afalse%2C%22onPageLocalizationSupport%22%3Atrue%2C%22onPageMoveTool%22%3Atrue%2C%22onPageRichTextBlockSelection%22%3Atrue%7D&amp;loadStart=1789817282147&amp;forceShow=true"
-        aria-hidden="true" allow="autoplay" tabindex="-1" class="status_visually_hidden">
-    </iframe>
 </body>
 
 </html>
